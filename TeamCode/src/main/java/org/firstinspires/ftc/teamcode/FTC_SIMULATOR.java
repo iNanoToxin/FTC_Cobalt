@@ -1,0 +1,75 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
+
+@TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
+public class BasicOpMode_Linear extends LinearOpMode {
+
+    // Declare OpMode members.
+    private DcMotor frontLeft;
+    private DcMotor frontRight;
+    private DcMotor backLeft;
+    private DcMotor backRight;
+
+    @Override
+    public void runOpMode() {
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+
+        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
+        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+        backRight = hardwareMap.get(DcMotor.class, "backRight");
+
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        // Wait for the game to start (driver presses PLAY)
+        waitForStart();
+
+        // run until the end of the match (driver presses STOP)
+        while (opModeIsActive()) {
+
+            // Setup a variable for each drive wheel to save power level for telemetry
+            double xAxisMovement = -gamepad1.left_stick_x;
+            double yAxisMovement = gamepad1.left_stick_y;
+            double rAxisMovement = gamepad1.right_stick_x;
+            double drivePower = 0.5;
+
+            // Choose to drive using either Tank Mode, or POV Mode
+            // Comment out the method that's not used.  The default below is POV.
+
+            // POV Mode uses left stick to go forward, and right stick to turn.
+            // - This uses basic math to combine motions and is easier to drive straight.
+            double frontLPower = yAxisMovement - xAxisMovement + rAxisMovement;
+            double frontRPower = yAxisMovement + xAxisMovement - rAxisMovement;
+            double backLPower = yAxisMovement + xAxisMovement + rAxisMovement;
+            double backRPower = yAxisMovement - xAxisMovement - rAxisMovement;
+
+            frontLPower *= drivePower;
+            frontRPower *= drivePower;
+            backLPower *= drivePower;
+            backRPower *= drivePower;
+
+            // Send calculated power to wheels
+            frontLeft.setPower(frontLPower);
+            frontRight.setPower(frontRPower);
+            backLeft.setPower(backLPower);
+            backRight.setPower(backRPower);
+
+            // Show the elapsed game time and wheel power.
+            telemetry.addData("drivePower", drivePower);
+            telemetry.addData("frontLeft", Motors.frontLeft.getPower());
+            telemetry.addData("frontRight", Motors.frontRight.getPower());
+            telemetry.addData("backLeft", Motors.backLeft.getPower());
+            telemetry.addData("backRight", Motors.backRight.getPower());
+            telemetry.addData("backRight", Motors.backRight.getPower());
+            telemetry.update();
+        }
+    }
+}
