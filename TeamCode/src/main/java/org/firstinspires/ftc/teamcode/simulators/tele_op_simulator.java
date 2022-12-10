@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
 public class BasicOpMode_Linear extends LinearOpMode {
-
     // Declare OpMode members.
     private DcMotor frontLeft;
     private DcMotor frontRight;
@@ -21,10 +20,10 @@ public class BasicOpMode_Linear extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
-        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
-        backRight = hardwareMap.get(DcMotor.class, "backRight");
+        frontLeft   = hardwareMap.get(DcMotor.class, "frontLeft");
+        frontRight  = hardwareMap.get(DcMotor.class, "frontRight");
+        backLeft    = hardwareMap.get(DcMotor.class, "backLeft");
+        backRight   = hardwareMap.get(DcMotor.class, "backRight");
 
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -76,6 +75,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
             backRight.setPower(backRPower);
 
             // Show the elapsed game time and wheel power.
+            telemetry.addData("pos", frontLeft.getCurrentPosition())
             telemetry.addData("drivePower", drivePower);
             telemetry.addLine();
             telemetry.addData("xDistance", xAxisMovement);

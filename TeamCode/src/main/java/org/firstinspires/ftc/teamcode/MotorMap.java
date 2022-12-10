@@ -12,14 +12,15 @@ public class MotorMap {
     public HardwareMap hardwareMap;
 
     public MotorMap(HardwareMap hardwareMap) {
-        this.hardwareMap = hardwareMap;
-        frontLeft = this.hardwareMap.get(DcMotor.class, "frontLeft");
-        frontRight = this.hardwareMap.get(DcMotor.class, "frontRight");
-        backLeft = this.hardwareMap.get(DcMotor.class, "backLeft");
-        backRight = this.hardwareMap.get(DcMotor.class, "backRight");
+        frontLeft   = hardwareMap.get(DcMotor.class, "frontLeft");
+        frontRight  = hardwareMap.get(DcMotor.class, "frontRight");
+        backLeft    = hardwareMap.get(DcMotor.class, "backLeft");
+        backRight   = hardwareMap.get(DcMotor.class, "backRight");
 
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        this.hardwareMap = hardwareMap;
     }
 
     public void forward(double power) {
