@@ -7,106 +7,101 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 
-@TeleOp(name = "TeleOP Mode")
+@TeleOp(name = "TeleOP Mode (Cobalt)")
 public class TeleOP extends OpMode {
-
-    //frontLeft, frontRight, backLeft, backRight
+    // Declare OpMode members. These map motors such as frontLeft, frontRight, backLeft, backRight, etc.
     DcMotor linearSlide;
     ServoController claw;
-
+    // Custom mapping for our motors.
     MotorMap Motors;
 
+    // Declare our constants.
+    double DRIVE_POWER_INCREMENT    = 0.2;
+    double ROTATION_DAMPNER         = 0.5;
+    double DRIVE_POWER_MIN          = 0.1;
+    double STICK_DRIFT_MAX          = 0.1;
 
-    boolean rightTriggerPressed = false;
-    boolean leftTriggerPressed = false;
-    double drivePower = 0.5;
-    long lastTime = 0;
+    // Declare our variables.
+    boolean rightTriggerPressed     = false;
+    boolean leftTriggerPressed      = false;
+    double drivePower               = 0.5;
+
 
 
     @Override
-    // runs at the beginning
-    public void init() {
-        // set value to motors
+    public void init() { // Initializes the robot during "INIT".
+        // Maps motors to variables.
         Motors = new MotorMap(hardwareMap);
-        // reverse the right motors
+        // Reverse the right motors.
         Motors.frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         Motors.backRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        linearSlide = hardwareMap.get(DcMotor.class, "");
+        // Gets our linear slide.
+        // linearSlide = hardwareMap.get(DcMotor.class, "");
     }
 
     @Override
     public void loop() {
-        double x1 = -gamepad1.left_stick_x;
-        double y1 = gamepad1.left_stick_y;
+        // Gets our values from gamepad one.
+        double xAxisMovement = gamepad1.left_stick_x;
+        double yAxisMovement = gamepad1.left_stick_y;
+        double rAxisMovement = gamepad1.right_stick_x;
+        // Gets our values from gamepad two.
+        double lAxisMovement = gamepad2.left_stick_x;
 
-        double x2 = gamepad1.right_stick_x;
-        double y2 = gamepad1.right_stick_y;
-
-        double y3 = gamepad2.left_stick_y;
-        double x4 = gamepad2.right_stick_x;
-
+        // Conditional statement that increases drivepower once per buttonpress.
         if (gamepad1.right_trigger == 1) {
-            if (!rightTriggerPressed) {
-                drivePower = Math.min(drivePower + 0.2, 1);
+            if (rightTriggerPressed == false) {
+                // Ensures that drive power does not exceed a value of 1.
+                drivePower = Math.min(drivePower + DRIVE_POWER_INCREMENT, 1);
                 rightTriggerPressed = true;
             }
         } else {
             rightTriggerPressed = false;
         }
 
+        // Conditional statement that decreases drivepower once per buttonpress.
         if (gamepad1.left_trigger == 1) {
-            if (!leftTriggerPressed) {
-                drivePower = Math.max(drivePower - 0.2, 0.1);
+            if (leftTriggerPressed == false) {
+                // Ensures that drive power does not go below a value of 0.1.
+                drivePower = Math.max(drivePower - DRIVE_POWER_INCREMENT, DRIVE_POWER_MIN);
                 leftTriggerPressed = true;
             }
         } else {
             leftTriggerPressed = false;
         }
+        
+        // Calculates power required to make motors move as needed.
+        double frontLeftPower = yAxisMovement - xAxisMovement + rAxisMovement * ROTATION_DAMPNER;
+        double frontRightPower = yAxisMovement + xAxisMovement - rAxisMovement * ROTATION_DAMPNER;
+        double backLeftPower = yAxisMovement + xAxisMovement + rAxisMovement * ROTATION_DAMPNER;
+        double backRightPower = yAxisMovement - xAxisMovement - rAxisMovement * ROTATION_DAMPNER;
 
+        // Applies drive power multiplier to increase/decrease speed.
+        frontLeftPower *= drivePower;
+        frontRightPower *= drivePower;
+        backLeftPower *= drivePower;
+        backRightPower *= drivePower;
 
-        /*
-            // Forward and backward
-            frontLeft.setPower(-y1);
-            frontRight.setPower(-y1);
-            backLeft.setPower(y1);
-            backRight.setPower(y1);
+        // Send calculated power to wheels.
+        Motors.frontLeft.setPower(frontLeftPower);
+        Motors.frontRight.setPower(frontRightPower);
+        Motors.backLeft.setPower(backLeftPower);
+        Motors.backRight.setPower(backRightPower);
 
-            // Left and right
-            frontLeft.setPower(-x1);
-            frontRight.setPower(x1);
-            backLeft.setPower(-x1);
-            backRight.setPower(x1);
-
-            // Turn left or right
-            frontLeft.setPower(x2);
-            frontRight.setPower(-x2);
-            backLeft.setPower(-x2);
-            backRight.setPower(x2);
-        */
-
-        double frontLPower = (x1 + y1 - x2);
-        double frontRPower = (x1 - y1 - x2);
-        double backLPower = -(x1 - y1 + x2);
-        double backRPower = -(x1 + y1 + x2);
-
-        frontLPower *= drivePower;
-        frontRPower *= drivePower;
-        backLPower *= drivePower;
-        backRPower *= drivePower;
-
-        Motors.frontLeft.setPower(frontLPower);
-        Motors.frontRight.setPower(frontRPower);
-        Motors.backLeft.setPower(backLPower);
-        Motors.backRight.setPower(backRPower);
-
-        //double linearSlidePower = y3;
+        //double linearSlidePower = lAxisMovement;
         //linearSlide.setPower(linearSlidePower);
 
+        // Outputs out data.
         telemetry.addData("drivePower", drivePower);
+        telemetry.addLine();
+        telemetry.addData("xDistance", xAxisMovement);
+        telemetry.addData("yDistance", yAxisMovement);
+        telemetry.addData("xDistance2", rAxisMovement);
+        telemetry.addData("yDistance2", "none");
+        telemetry.addLine();
         telemetry.addData("frontLeft", Motors.frontLeft.getPower());
         telemetry.addData("frontRight", Motors.frontRight.getPower());
         telemetry.addData("backLeft", Motors.backLeft.getPower());
-        telemetry.addData("backRight", Motors.backRight.getPower());
         telemetry.addData("backRight", Motors.backRight.getPower());
         telemetry.update();
     }
