@@ -22,7 +22,6 @@ public class TeleOP extends OpMode {
     boolean rightTriggerPressed = false;
     boolean leftTriggerPressed = false;
     double drivePower = 0.5;
-    long lastTime = 0;
 
 
     @Override
