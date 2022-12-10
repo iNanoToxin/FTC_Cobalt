@@ -48,6 +48,17 @@ public class TeleOP extends OpMode {
         // Gets our values from gamepad two.
         double lAxisMovement = gamepad2.left_stick_x;
 
+        // Removes stick drift.
+        if (Math.abs(xAxisMovement) < STICK_DRIFT_MAX) {
+            xAxisMovement = 0;
+        }
+        if (Math.abs(yAxisMovement) < STICK_DRIFT_MAX) {
+            yAxisMovement = 0;
+        }
+        if (Math.abs(rAxisMovement) < STICK_DRIFT_MAX) {
+            rAxisMovement = 0;
+        }
+
         // Conditional statement that increases drivepower once per buttonpress.
         if (gamepad1.right_trigger == 1) {
             if (rightTriggerPressed == false) {
