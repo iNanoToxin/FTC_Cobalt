@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 
 @TeleOp(name = "TeleOp Mode (Cobalt)")
-public class TeleOp extends OpMode {
+public class TeleOp_Mode extends OpMode {
     // Declare OpMode members. These map motors such as frontLeft, frontRight, backLeft, backRight, etc.
     DcMotor linearSlide;
     ServoController claw;

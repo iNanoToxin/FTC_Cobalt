@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name = "Autonomous Mode (Cobalt)")
-public class Autonomous extends LinearOpMode {
+public class Autonomous_Mode extends LinearOpMode {
 
     @Override
     public void runOpMode() {
