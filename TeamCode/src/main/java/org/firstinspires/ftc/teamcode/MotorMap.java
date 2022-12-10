@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,6 +10,8 @@ public class MotorMap {
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
+    public Servo claw;
+    public DcMotor linearSlide;
     public HardwareMap hardwareMap;
 
     public MotorMap(HardwareMap hardwareMap) {
@@ -16,6 +19,8 @@ public class MotorMap {
         frontRight  = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft    = hardwareMap.get(DcMotor.class, "backLeft");
         backRight   = hardwareMap.get(DcMotor.class, "backRight");
+        claw        = hardwareMap.get(Servo.class, "claw");
+        linearSlide = hardwareMap.get(DcMotor.class, "linearSlide");
 
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -50,5 +55,9 @@ public class MotorMap {
         frontRight.setPower(-power);
         backLeft.setPower(-power);
         backRight.setPower(power);
+    }
+
+    public void cclaw(double power) {
+        claw.setPosition(power);
     }
 }

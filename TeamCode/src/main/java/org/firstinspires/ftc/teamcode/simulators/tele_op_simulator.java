@@ -58,24 +58,23 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
-            double frontLPower = yAxisMovement - xAxisMovement + rAxisMovement * ROTATION_DAMPNER;
-            double frontRPower = yAxisMovement + xAxisMovement - rAxisMovement * ROTATION_DAMPNER;
-            double backLPower = yAxisMovement + xAxisMovement + rAxisMovement * ROTATION_DAMPNER;
-            double backRPower = yAxisMovement - xAxisMovement - rAxisMovement * ROTATION_DAMPNER;
+            double frontLeftPower   = yAxisMovement + xAxisMovement - rAxisMovement * (1 - ROTATION_DAMPNER);
+            double frontRightPower  = yAxisMovement - xAxisMovement + rAxisMovement * (1 - ROTATION_DAMPNER);
+            double backLeftPower    = yAxisMovement - xAxisMovement - rAxisMovement * (1 - ROTATION_DAMPNER);
+            double backRightPower   = yAxisMovement + xAxisMovement + rAxisMovement * (1 - ROTATION_DAMPNER);
 
-            frontLPower *= drivePower;
-            frontRPower *= drivePower;
-            backLPower *= drivePower;
-            backRPower *= drivePower;
+            frontLeftPower *= drivePower;
+            frontRightPower *= drivePower;
+            backLeftPower *= drivePower;
+            backRightPower *= drivePower;
 
             // Send calculated power to wheels
-            frontLeft.setPower(frontLPower);
-            frontRight.setPower(frontRPower);
-            backLeft.setPower(backLPower);
-            backRight.setPower(backRPower);
+            frontLeft.setPower(frontLeftPower);
+            frontRight.setPower(frontRightPower);
+            backLeft.setPower(backLeftPower);
+            backRight.setPower(backRightPower);
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("pos", frontLeft.getCurrentPosition())
             telemetry.addData("drivePower", drivePower);
             telemetry.addLine();
             telemetry.addData("xDistance", xAxisMovement);
