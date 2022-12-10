@@ -17,8 +17,8 @@ public class TeleOP extends OpMode {
 
     // Declare our constants.
     double DRIVE_POWER_INCREMENT    = 0.2;
-    double ROTATION_DAMPNER         = 0.5;
     double DRIVE_POWER_MIN          = 0.1;
+    double ROTATION_DAMPNER         = 0.5;
     double STICK_DRIFT_MAX          = 0.1;
 
     // Declare our variables.
@@ -63,8 +63,8 @@ public class TeleOP extends OpMode {
         if (gamepad1.right_trigger == 1) {
             if (rightTriggerPressed == false) {
                 // Ensures that drive power does not exceed a value of 1.
-                drivePower = Math.min(drivePower + DRIVE_POWER_INCREMENT, 1);
                 rightTriggerPressed = true;
+                drivePower = Math.min(drivePower + DRIVE_POWER_INCREMENT, 1);
             }
         } else {
             rightTriggerPressed = false;
@@ -74,24 +74,24 @@ public class TeleOP extends OpMode {
         if (gamepad1.left_trigger == 1) {
             if (leftTriggerPressed == false) {
                 // Ensures that drive power does not go below a value of 0.1.
-                drivePower = Math.max(drivePower - DRIVE_POWER_INCREMENT, DRIVE_POWER_MIN);
                 leftTriggerPressed = true;
+                drivePower = Math.max(drivePower - DRIVE_POWER_INCREMENT, DRIVE_POWER_MIN);
             }
         } else {
             leftTriggerPressed = false;
         }
         
         // Calculates power required to make motors move as needed.
-        double frontLeftPower = yAxisMovement - xAxisMovement + rAxisMovement * ROTATION_DAMPNER;
-        double frontRightPower = yAxisMovement + xAxisMovement - rAxisMovement * ROTATION_DAMPNER;
-        double backLeftPower = yAxisMovement + xAxisMovement + rAxisMovement * ROTATION_DAMPNER;
-        double backRightPower = yAxisMovement - xAxisMovement - rAxisMovement * ROTATION_DAMPNER;
+        double frontLeftPower   = yAxisMovement - xAxisMovement + rAxisMovement * (1 - ROTATION_DAMPNER);
+        double frontRightPower  = yAxisMovement + xAxisMovement - rAxisMovement * (1 - ROTATION_DAMPNER);
+        double backLeftPower    = yAxisMovement + xAxisMovement + rAxisMovement * (1 - ROTATION_DAMPNER);
+        double backRightPower   = yAxisMovement - xAxisMovement - rAxisMovement * (1 - ROTATION_DAMPNER);
 
         // Applies drive power multiplier to increase/decrease speed.
-        frontLeftPower *= drivePower;
+        frontLeftPower  *= drivePower;
         frontRightPower *= drivePower;
-        backLeftPower *= drivePower;
-        backRightPower *= drivePower;
+        backLeftPower   *= drivePower;
+        backRightPower  *= drivePower;
 
         // Send calculated power to wheels.
         Motors.frontLeft.setPower(frontLeftPower);
