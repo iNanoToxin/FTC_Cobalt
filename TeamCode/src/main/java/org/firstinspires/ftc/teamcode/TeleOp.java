@@ -24,7 +24,7 @@ public class TeleOp extends OpMode {
     // Declare our variables.
     boolean rightTriggerPressed     = false;
     boolean leftTriggerPressed      = false;
-    double drivePower               = 0.5;
+    double  drivePower              = 0.5;
 
 
 
