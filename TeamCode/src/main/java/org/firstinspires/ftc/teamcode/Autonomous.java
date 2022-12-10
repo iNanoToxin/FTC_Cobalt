@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Autonomous(name = "Autonomous Mode")
-public class AutoOP extends LinearOpMode {
+@Autonomous(name = "Autonomous Mode (Cobalt)")
+public class Autonomous extends LinearOpMode {
 
     @Override
     public void runOpMode() {
