@@ -14,13 +14,24 @@ public class MotorMap {
     public DcMotor linearSlide;
     public HardwareMap hardwareMap;
 
-    public MotorMap(HardwareMap hardwareMap) {
+    public MotorMap(HardwareMap hardwareMap, boolean autonomous) {
         frontLeft   = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight  = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft    = hardwareMap.get(DcMotor.class, "backLeft");
         backRight   = hardwareMap.get(DcMotor.class, "backRight");
         claw        = hardwareMap.get(Servo.class, "claw");
         linearSlide = hardwareMap.get(DcMotor.class, "linearSlide");
+
+        if (autonomous) {
+
+        } else {
+            frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            linearSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+
 
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);

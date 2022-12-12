@@ -40,7 +40,7 @@ public class TeleOp_Mode extends OpMode {
     double ticksPerInch = Math.PI * diameter / ticksPerRotation;
 
     public BNO055IMU imu; // keesp track of your rotation
-    Orientation currentOrientation, lastOrientation;
+    public Orientation currentOrientation, lastOrientation;
 
     public double lastHeading = 0.0;
     public double headingOffset;
@@ -58,14 +58,14 @@ public class TeleOp_Mode extends OpMode {
         Motors.claw.setDirection(Servo.Direction.FORWARD);
 
         // initialize IMU
-        // BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
-        // parameters.mode                = BNO055IMU.SensorMode.IMU;
-        // parameters.angleUnit           = BNO055IMU.AngleUnit.RADIANS;
-        // parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        // parameters.loggingEnabled      = false;
+        parameters.mode                = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit           = BNO055IMU.AngleUnit.RADIANS;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled      = false;
 
-        // imu.initialize(parameters);
+        imu.initialize(parameters);
     }
 
     @Override

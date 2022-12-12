@@ -58,10 +58,10 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
-            double frontLeftPower   = yAxisMovement + xAxisMovement - rAxisMovement * (1 - ROTATION_DAMPNER);
-            double frontRightPower  = yAxisMovement - xAxisMovement + rAxisMovement * (1 - ROTATION_DAMPNER);
-            double backLeftPower    = yAxisMovement - xAxisMovement - rAxisMovement * (1 - ROTATION_DAMPNER);
-            double backRightPower   = yAxisMovement + xAxisMovement + rAxisMovement * (1 - ROTATION_DAMPNER);
+            double frontLeftPower   = -yAxisMovement + xAxisMovement + rAxisMovement * (1 - ROTATION_DAMPNER);
+            double frontRightPower  = -yAxisMovement - xAxisMovement - rAxisMovement * (1 - ROTATION_DAMPNER);
+            double backLeftPower    = -yAxisMovement - xAxisMovement + rAxisMovement * (1 - ROTATION_DAMPNER);
+            double backRightPower   = -yAxisMovement + xAxisMovement - rAxisMovement * (1 - ROTATION_DAMPNER);
 
             frontLeftPower *= drivePower;
             frontRightPower *= drivePower;
