@@ -72,3 +72,4 @@ public class MotorMap {
         claw.setPosition(power);
     }
 }
+abstract;
