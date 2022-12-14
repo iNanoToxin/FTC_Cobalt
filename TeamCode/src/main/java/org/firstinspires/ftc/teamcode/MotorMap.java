@@ -71,4 +71,24 @@ public class MotorMap {
     public void cclaw(double power) {
         claw.setPosition(power);
     }
+
+    public void raiseLinearSlide(double power) {
+        linearSlide.setPower(-power);
+
+    }
+
+    public void setMode(DcMotor.RunMode mode) {
+        frontLeft.setMode(mode);
+        frontRight.setMode(mode);
+        backLeft.setMode(mode);
+        backRight.setMode(mode);
+        linearSlide.setMode(mode);
+    }
+
+    public void setTarget(double inches) {
+        frontLeft.setTargetPosition(target);
+        frontRight.setTargetPosition(-target);
+        backLeft.setTargetPosition(target);
+        backRight.setTargetPosition(-target);
+    }
 }

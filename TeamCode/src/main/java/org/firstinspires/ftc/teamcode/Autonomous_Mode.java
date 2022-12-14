@@ -12,12 +12,14 @@ public class Autonomous_Mode extends LinearOpMode {
     public void runOpMode() {
         MotorMap Motors = new MotorMap(hardwareMap);
 
+        Motors.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)
+
         Motors.forward(1);
         sleep(1000);
         Motors.rotate(0.3);
         sleep(1000);
         Motors.right(1);
-        
+
     }
 }
 
