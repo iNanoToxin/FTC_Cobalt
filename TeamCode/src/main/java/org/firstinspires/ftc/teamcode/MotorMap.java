@@ -74,7 +74,6 @@ public class MotorMap {
 
     public void raiseLinearSlide(double power) {
         linearSlide.setPower(-power);
-
     }
 
     public void setMode(DcMotor.RunMode mode) {
