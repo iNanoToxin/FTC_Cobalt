@@ -14,6 +14,8 @@ public class Autonomous_Mode extends LinearOpMode {
 
         Motors.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)
 
+        Motors.setTarget(31.5, "right");
+
         Motors.forward(1);
         sleep(1000);
         Motors.rotate(0.3);

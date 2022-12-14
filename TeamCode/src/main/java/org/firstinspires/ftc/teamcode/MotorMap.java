@@ -84,10 +84,37 @@ public class MotorMap {
         linearSlide.setMode(mode);
     }
 
-    public void setTarget(double inches) {
-        frontLeft.setTargetPosition(target);
-        frontRight.setTargetPosition(-target);
-        backLeft.setTargetPosition(target);
-        backRight.setTargetPosition(-target);
+    public void setTarget(double inches, String direction) {
+        switch (direction) {
+            case direction.equals("forward"):
+                frontLeft.setTargetPosition(power);
+                frontRight.setTargetPosition(power);
+                backLeft.setTargetPosition(-power);
+                backRight.setTargetPosition(-power);
+                break
+            case direction.equals("backward"):
+                frontLeft.setTargetPosition(-power);
+                frontRight.setTargetPosition(-power);
+                backLeft.setTargetPosition(power);
+                backRight.setTargetPosition(power);
+                break
+            case direction.equals("left"):
+                frontLeft.setTargetPosition(-power);
+                frontRight.setTargetPosition(power);
+                backLeft.setTargetPosition(-power);
+                backRight.setTargetPosition(power);
+                break
+            case direction.equals("right"):
+                frontLeft.setTargetPosition(power);
+                frontRight.setTargetPosition(-power);
+                backLeft.setTargetPosition(power);
+                backRight.setTargetPosition(-power);
+                break
+            case directoin.equals("rotate"):
+                frontLeft.setTargetPosition(-power);
+                frontRight.setTargetPosition(power);
+                backLeft.setTargetPosition(power);
+                backRight.setTargetPosition(-power);
+        }
     }
 }
