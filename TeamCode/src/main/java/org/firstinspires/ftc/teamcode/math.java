@@ -13,7 +13,7 @@ public class math {
     private double currentHeading = 0.0;
 
     public void getTicks(double inches) {
-        return inches * ticksPerInch * 1;
+        return inches * ticksPerInch;
     }
 
 
