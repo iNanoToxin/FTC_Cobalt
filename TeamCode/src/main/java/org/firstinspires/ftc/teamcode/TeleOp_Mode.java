@@ -50,22 +50,22 @@ public class TeleOp_Mode extends OpMode {
     @Override
     public void init() { // Initializes the robot during "INIT".
         // Maps motors to variables.
-        Motors = new MotorMap(hardwareMap);
+        Motors = new MotorMap(hardwareMap, true);
         // Reverse the right motors.
         Motors.frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         Motors.backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         // Sets direction of servo to forward.
         Motors.claw.setDirection(Servo.Direction.FORWARD);
-
+        Motors.claw.setPosition(0.45);
         // initialize IMU
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        // BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
-        parameters.mode                = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit           = BNO055IMU.AngleUnit.RADIANS;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled      = false;
+        // parameters.mode                = BNO055IMU.SensorMode.IMU;
+        // parameters.angleUnit           = BNO055IMU.AngleUnit.RADIANS;
+        // parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        // parameters.loggingEnabled      = false;
 
-        imu.initialize(parameters);
+        // imu.initialize(parameters);
     }
 
     @Override
@@ -130,15 +130,19 @@ public class TeleOp_Mode extends OpMode {
         Motors.backRight.setPower(backRightPower);
 
         double linearSlidePower = lAxisMovement;
-        Motors.linearSlide.setPower(linearSlidePower * 0.5);
-        // Motors.claw.setPosition(Math.max(0.2, Math.min(0.5, Math.abs(cAxisMovement))));
-        Motors.claw.setPosition(Math.abs(cAxisMovement));
+        Motors.linearSlide.setPower(linearSlidePower);
 
+        
+        Motors.claw.scaleRange(0.2, 0.45);
+        // Motors.claw.setPosition(Math.max(0.2, Math.min(0.5, Math.abs(cAxisMovement))));
+        Motors.claw.setPosition(cAxisMovement);
+        // Motors.claw.setPosition(0);
         // Outputs out data.
+        
         telemetry.addData("drivePower", drivePower);
         telemetry.addLine();
-        telemetry.addData("linearSlide", Motors.linearSlide.getPower());
         telemetry.addData("claw", Motors.claw.getPosition());
+
         telemetry.addLine();
         telemetry.addData("xDistance", xAxisMovement);
         telemetry.addData("yDistance", yAxisMovement);
@@ -149,6 +153,22 @@ public class TeleOp_Mode extends OpMode {
         telemetry.addData("frontRight", Motors.frontRight.getPower());
         telemetry.addData("backLeft", Motors.backLeft.getPower());
         telemetry.addData("backRight", Motors.backRight.getPower());
+        
+
+        // Motors.linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Motors.linearSlide.setTargetPosition(RobotMath.linearSlideTicks(5));
+        // Motors.linearSlide.setPower(0.75);
+
+        // while (Motors.linearSlide.isBusy()) {
+        //     telemetry.addLine();
+        //     telemetry.addData("linearSlide", Motors.linearSlide.getPower());
+        //     telemetry.addData("linearSlidePos", Motors.linearSlide.getCurrentPosition());
+        //     telemetry.update();
+        // }
+
+        // telemetry.addData("LS REACHED", "yes!");
+        // Motors.linearSlide.setPower(0.0);
         telemetry.update();
+        
     }
 }
