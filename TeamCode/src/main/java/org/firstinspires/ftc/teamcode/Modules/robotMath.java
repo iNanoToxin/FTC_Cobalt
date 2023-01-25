@@ -18,9 +18,9 @@ public class robotMath {
     private double currentHeading = 0.0;
 
     public static int getTicks(double inches) {
-        double diameter = 10; // calculate this
+        double diameter = 3.75; // calculfate this
         double ticksPerRotation = 537.7;
-        double ticksPerInch = Math.PI * diameter * ticksPerRotation;
+        double ticksPerInch = (ticksPerRotation / (Math.PI * diameter));
 
         return (int) Math.floor(inches * ticksPerInch);
     }
@@ -31,7 +31,7 @@ public class robotMath {
         double ticksInARotation = 537.7;
 
                     
-        double inchesPerTick = circumference / ticksInARotation;
+        double inchesPerTick = ticksInARotation / circumference;
         return (int) Math.floor(inches / inchesPerTick); 
     }
 }

@@ -65,7 +65,7 @@ public class TelemetryOp extends OpMode {
         // Initialize and create new PID controller.
         {
             // Create new Proportional-Integral-Derivative Controller.
-            pidController = new PIDController(0.008, 0.001, 0);
+            pidController = new PIDController(0.0   08, 0.001, 0);
             pidController.setSetpoint(0.0);
 
             elapsedTime = new ElapsedTime();
@@ -152,7 +152,7 @@ public class TelemetryOp extends OpMode {
             motors.backRight.setPower(back_right_power);
         }
 
-        double linear_slide_power = lAxisMovement;
+       double linear_slide_power = lAxisMovement;
         motors.linearSlide.setTargetPosition(10);
         motors.linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);    
         motors.linearSlide.setPower(linear_slide_power * 0.5);
