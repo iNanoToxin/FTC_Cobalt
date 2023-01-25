@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
+
 @TeleOp(name = "Teleop (Cobalt)")
 public class TelemetryOp extends OpMode {
     // GoBILDA 5202/3/4: {0: backLeft, 1: frontLeft, 2: frontRight, 3: backRight}
@@ -28,9 +29,9 @@ public class TelemetryOp extends OpMode {
     private final double joystick_max_drift       = 0.1;
     
     // Declare our robot constants
-    private final double claw_max_range           = 0.45;
-    private final double claw_min_range           = 0.20;
-    private final double drive_power              = 0.50;
+    public double claw_max_range           = 0.45;
+    public double claw_min_range           = 0.20;
+    private double drive_power                    = 0.50;
 
     // Declare our boolean variables.
     private boolean right_trigger_pressed   = false;
@@ -58,14 +59,14 @@ public class TelemetryOp extends OpMode {
             motors.backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
             // Sets direction of servo to forward.
-            motors.claw.setDirection(Servo.Direction.FORWARD);
-            motors.claw.setPosition(claw_max_range);
+            // motors.claw.setDirection(Servo.Direction.FORWARD);
+            // motors.claw.setPosition(claw_max_range);
         }
 
         // Initialize and create new PID controller.
         {
             // Create new Proportional-Integral-Derivative Controller.
-            pidController = new PIDController(0.0   08, 0.001, 0);
+            pidController = new PIDController(0.0, 0.8, 0.001);
             pidController.setSetpoint(0.0);
 
             elapsedTime = new ElapsedTime();
@@ -152,26 +153,27 @@ public class TelemetryOp extends OpMode {
             motors.backRight.setPower(back_right_power);
         }
 
-       double linear_slide_power = lAxisMovement;
-        motors.linearSlide.setTargetPosition(10);
-        motors.linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);    
+        double linear_slide_power = lAxisMovement;
+        // motors.linearSlide.setTargetPosition(10);
+        // motors.linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);    
         motors.linearSlide.setPower(linear_slide_power * 0.5);
+        motors.claw.setPosition(cAxisMovement);
 
-        
+        // motors.claw.setPosition(0);
         // Handle gamepad2 inputs.
-        {
-            motors.claw.scaleRange(claw_min_range, claw_max_range);
-            if (gamepad2.a) {
-                if (is_buttonA_pressed == false) {
-                    is_buttonA_pressed = true;
-                    
-                    motors.claw.setPosition(is_claw_toggled ? 0 : 1);
-                    is_claw_toggled = !is_claw_toggled;
-                }
-            } else {
-                is_buttonA_pressed = false;
-            }
-        }
+        // {
+        //     motors.claw.scaleRange(claw_min_range, claw_max_range);
+        //     if (gamepad2.a) {
+        //         if (is_buttonA_pressed == false) {
+        //             is_buttonA_pressed = true;
+        //             telemetry.addData("pressed A", true);
+        //             motors.claw.setPosition(is_claw_toggled ? 0 : 1);
+        //             is_claw_toggled = !is_claw_toggled;
+        //         }
+        //     } else {
+        //         is_buttonA_pressed = false;
+        //     }
+        // }
 
         // Outputs out data.
         {
@@ -191,7 +193,7 @@ public class TelemetryOp extends OpMode {
             // telemetry.addData("backRight    :", motors.backRight.getPower());
             // telemetry.addLine();
             // telemetry.addData("linearSlide  :", motors.linearSlide.getPower());
-            // telemetry.addData("claw         :", motors.claw.getPosition());
+            telemetry.addData("claw         :", motors.claw.getPosition());
             // telemetry.addLine();
             // telemetry.addData("xDistance    :", xAxisMovement);
             // telemetry.addData("yDistance    :", yAxisMovement);
